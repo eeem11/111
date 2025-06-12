@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  <script type="text/javascript" src="echarts.min.js"></script>
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    function randomData(now, interval, currentValues) {
+  const newTime = new Date(+now + interval);
+  const newValues = {};
+  Object.keys(currentValues).forEach(key => {
+    newValues[key] = currentValues[key] + Math.random() * 21 - 10;
+  });
+  return {
+    time: newTime.toISOString(),
+    values: {
+      pm25: Math.round(newValues.pm25),
+      pm10: Math.round(newValues.pm10),
+      so2: Math.round(newValues.so2),
+      no2: Math.round(newValues.no2),
+      o3: Math.round(newValues.o3),
+      co: Math.round(newValues.co)
+    }
+  };
+}
+
+let chartData = { pm25: [], pm10: [], so2: [], no2: [], o3: [], co: [] };
+let currentValues = {
+  pm25: Math.random() * 1000,
+  pm10: Math.random() * 1000,
+  so2: Math.random() * 1000,
+  no2: Math.random() * 1000,
+  o3: Math.random() * 1000,
+  co: Math.random() * 1000
+};
+let now = new Date(1997, 8, 3, 10, 0, 0);
+const interval = 2 * 1000;
+
+// 初始化数据
+for (let i = 0; i < 1000; i++) {
+  const newData = randomData(now, interval, currentValues);
+  now = new Date(newData.time);
+  Object.keys(chartData).forEach(key => {
+    chartData[key].push([newData.time, newData.values[key]]);
+  });
+  currentValues = newData.values;
+}
+
+option = {
+  toolbox: {
+    show: true,
+    feature: {
+      dataZoom: {
+        yAxisIndex: "none"
+      },
+      dataView: {
+        readOnly: false
+      },
+      magicType: {
+        type: ["line", "bar"]
+      },
+      restore: {},
+      saveAsImage: {}
+    },
+    orient: "horizontal",
+    itemSize: 15,
+    itemGap: 8
+  },
+  legend: {
+    data: ['PM2.5', 'PM10', 'SO2', 'NO2', 'O3', 'CO'],
+    top: 5,
+    left: 'center',
+    width: "100%"
+  },
+  tooltip: {
+    trigger: 'axis',
+    formatter: function (params) {
+      const date = new Date(params[0].axisValue);
+      let result = `${date.toLocaleString()}<br>`;
+      params.forEach(param => {
+        result += `${param.seriesName}: ${param.value[1]}<br>`;
+      });
+      return result;
+    },
+    axisPointer: {
+      animation: false
+    }
+  },
+  xAxis: {
+    type: 'time',
+    splitLine: {
+      show: true,
+      interval: (_, index) => index % 15 === 0
+    }
+  },
+  yAxis: {
+    type: 'value',
+    boundaryGap: [0, '100%'],
+    splitLine: {
+      show: true
+    }
+  },
+  color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83'],
+  series: [
+    {
+      name: 'PM2.5',
+      type: 'line',
+      showSymbol: false,
+      data: chartData.pm25
+    },
+    {
+      name: 'PM10',
+      type: 'line',
+      showSymbol: false,
+      data: chartData.pm10
+    },
+    {
+      name: 'SO2',
+      type: 'line',
+      showSymbol: false,
+      data: chartData.so2
+    },
+    {
+      name: 'NO2',
+      type: 'line',
+      showSymbol: false,
+      data: chartData.no2
+    },
+    {
+      name: 'O3',
+      type: 'line',
+      showSymbol: false,
+      data: chartData.o3
+    },
+    {
+      name: 'CO',
+      type: 'line',
+      showSymbol: false,
+      data: chartData.co
+    }
+  ]
+};
+
+setInterval(() => {
+  for (let i = 0; i < 5; i++) {
+    const newData = randomData(now, interval, currentValues);
+    now = new Date(newData.time);
+    Object.keys(chartData).forEach(key => {
+      chartData[key].shift();
+      chartData[key].push([newData.time, newData.values[key]]);
+    });
+    currentValues = newData.values;
+  }
+  myChart.setOption({
+    series: [
+      { data: chartData.pm25 },
+      { data: chartData.pm10 },
+      { data: chartData.so2 },
+      { data: chartData.no2 },
+      { data: chartData.o3 },
+      { data: chartData.co }
+    ]
+  });
+}, 1000);
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>

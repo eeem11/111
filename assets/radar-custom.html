@@ -1,0 +1,126 @@
+<!-- 双雷达图 -->
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+
+<script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<script src="./echarts.min.js"></script>
+<script type="text/javascript">
+  var dom = document.getElementById('container');
+  var myChart = echarts.init(dom, null, {
+    renderer: 'canvas',
+    useDirtyRect: false
+  });
+  var app = {};
+
+  var option;
+
+  option = {
+    color: ['#67F9D8', '#FFE434', '#56A3F1', '#FF917C'],
+    legend: {},
+    radar: [
+      {
+        indicator: [
+          { text: '温度' },
+          { text: '湿度' },
+          { text: 'CO₂' },
+          { text: 'TVOC' }
+        ],
+        center: ['50%', '30%'],  // 修改为上方居中
+        radius: 100,             // 调整半径防止重叠
+        startAngle: 90,
+        splitNumber: 4,
+        shape: 'circle',
+        axisName: {
+          formatter: '【{value}】',
+          color: '#428BD4'
+        },
+        splitArea: {
+          areaStyle: {
+            color: ['#77EADF', '#26C3BE', '#64AFE9', '#428BD4'],
+            shadowColor: 'rgba(0, 0, 0, 0.2)',
+            shadowBlur: 10
+          }
+        },
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(211, 253, 250, 0.8)'
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgba(211, 253, 250, 0.8)'
+          }
+        }
+      },
+      {
+        indicator: [
+          { text: 'PM2.5', max: 150 },
+          { text: 'PM10', max: 150 },
+          { text: '甲烷(CH₄)', max: 150 },
+          { text: '高度', max: 120 }
+        ],
+        center: ['50%', '70%'],  // 修改为下方居中
+        radius: 100,             // 调整半径防止重叠
+        axisName: {
+          color: '#fff',
+          backgroundColor: '#666',
+          borderRadius: 3,
+          padding: [3, 5]
+        }
+      }
+    ],
+    series: [
+      {
+        type: 'radar',
+        radarIndex: 0,  // 对应第一个雷达图
+        data: [
+          {
+            value: [28, 60, 800, 0.5],  // 调整为4个数据点
+            name: '数据A'
+          },
+          {
+            value: [25, 45, 650, 0.3],
+            name: '数据B',
+            areaStyle: {
+              color: 'rgba(255, 228, 52, 0.6)'
+            }
+          }
+        ]
+      },
+      {
+        type: 'radar',
+        radarIndex: 1,  // 对应第二个雷达图
+        data: [
+          {
+            value: [120, 110, 90, 80],  // 调整为4个数据点
+            name: '数据C',
+            symbol: 'rect',
+            symbolSize: 12,
+            lineStyle: {
+              type: 'dashed'
+            },
+            label: {
+              show: true,
+              formatter: function (params) {
+                return params.value;
+              }
+            }
+          }
+        ]
+      }
+    ]
+  };
+
+  if (option && typeof option === 'object') {
+    myChart.setOption(option);
+  }
+
+  window.addEventListener('resize', myChart.resize);
+</script>
+</body>
+</html>

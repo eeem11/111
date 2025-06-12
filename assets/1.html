@@ -1,0 +1,173 @@
+<!-- 数据仪表盘 -->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<script type="text/javascript" src="echarts.min.js"></script>
+<head>
+    <meta charset="utf-8">
+    <title>传感器仪表盘</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            height: calc(100% - 40px);
+            background: #F0F8FF;
+            display: flex;
+            flex-direction: column;
+        }
+        #location-container {
+            background: #E6F2FF;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 20px;
+        }
+        .location-group {
+            flex: 1;
+        }
+        .location-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .location-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+        #gauges-container {
+            flex: 1;
+            display: grid;
+            gap: 4px;
+            overflow-y: auto;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+        .gauge-item {
+            background: white;
+            border-radius: 8px;
+            padding: 0px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: 250px;
+        }
+
+        @media (max-width: 400px) {
+            #gauges-container {
+                grid-template-columns: repeat(2, minmax(100px, 1fr));
+            }
+            .gauge-item {
+                height: 200px;
+            }
+        }
+        @media (min-width: 401px) {
+            #gauges-container {
+                grid-template-columns: repeat(3, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 经纬度文本展示 -->
+<div id="location-container">
+    <div class="location-group">
+        <div class="location-text">纬度</div>
+        <div id="latitudeValue" class="location-value">39.904202</div>
+    </div>
+    <div class="location-group">
+        <div class="location-text">经度</div>
+        <div id="longitudeValue" class="location-value">116.407394</div>
+    </div>
+</div>
+
+<!-- 仪表盘容器 -->
+<div id="gauges-container"></div>
+
+<script src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<script>
+    const gaugesContainer = document.getElementById('gauges-container');
+
+    const createGaugeOption = (title, unit, maxValue, colors, value) => ({
+        series: [{
+            type: 'gauge',
+            center: ['50%', '60%'],
+            radius: '90%',
+            axisLine: {
+                lineStyle: {
+                    width: 20,
+                    color: colors
+                }
+            },
+            pointer: { itemStyle: { color: 'auto' } },
+            axisTick: { distance: -25, length: 6, lineStyle: { color: '#fff', width: 2 } },
+            splitLine: { distance: -25, length: 20, lineStyle: { color: '#fff', width: 3 } },
+            axisLabel: { color: '#666', distance: 30, fontSize: 10 },
+            detail: {
+                valueAnimation: true,
+                formatter: `{value} ${unit}`,
+                color: 'auto',
+                fontSize: 20
+            },
+            title: {
+                show: true,
+                offsetCenter: [0, '85%'],
+                fontSize: 16,
+                color: '#333'
+            },
+            data: [{ name: title, value: value }],
+            max: maxValue
+        }]
+    });
+
+    const sensors = [
+        { id: 'tempValue', title: '温度', unit: '℃', max: 50, dataKey: 'temp', colors: [[0.3, '#67e0e3'], [0.7, '#37a2da'], [1, '#fd666d']]},
+        { id: 'humiValue', title: '湿度', unit: '%', max: 100, dataKey: 'humi', colors: [[0.3, '#9FE6B8'], [0.7, '#32C5E9'], [1, '#1E9FFF']]},
+        { id: 'co2Value', title: 'CO₂', unit: 'ppm', max: 2000, dataKey: 'co2', colors: [[0.3, '#FFDB5C'], [0.7, '#F7BA1E'], [1, '#FF6600']]},
+        { id: 'methanalValue', title: '甲醛', unit: 'mg/m³', max: 1, dataKey: 'methanal', colors: [[0.3, '#D897EB'], [0.7, '#D897EB'], [1, '#722ED1']]},
+        { id: 'pm25Value', title: 'PM2.5', unit: 'μg/m³', max: 300, dataKey: 'pm25', colors: [[0.3, '#A0D911'], [0.7, '#7CB305'], [1, '#5B8C00']]},
+        { id: 'tvocValue', title: 'TVOC', unit: 'μg/m³', max: 500, dataKey: 'tvoc', colors: [[0.3, '#FF9C6E'], [0.7, '#FF7A45'], [1, '#D4380D']]},
+    ];
+
+    sensors.forEach(sensor => {
+        const div = document.createElement('div');
+        div.className = 'gauge-item';
+        gaugesContainer.appendChild(div);
+
+        const chart = echarts.init(div);
+        chart.setOption(createGaugeOption(
+            sensor.title,
+            sensor.unit,
+            sensor.max,
+            sensor.colors,
+            0
+        ));
+        sensor.chart = chart;
+    });
+
+// 数据更新函数
+    window.updateAllData = function(data) {
+        // 更新位置信息
+        document.getElementById('latitudeValue').textContent =
+            Number(data.latitude).toFixed(6);
+        document.getElementById('longitudeValue').textContent =
+            Number(data.longitude).toFixed(6);
+
+        // 更新仪表盘数据
+        sensors.forEach(sensor => {
+            const rawValue = data[sensor.dataKey];
+            const value = parseFloat(rawValue);
+            if (!isNaN(value)) {
+                sensor.chart.setOption({
+                    series: [{
+                        data: [{ value: value }]
+                    }]
+                });
+            }
+        });
+    };
+
+    window.addEventListener('resize', () => {
+        sensors.forEach(sensor => sensor.chart.resize());
+    });
+</script>
+</body>
+</html>
