@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#DDDEEE">
+
+    <!-- 顶部的紫色背景LinearLayout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="#8C5698C3"
+        android:gravity="center"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+
+    <!-- 中间部分，包含两个RadioButton和两个CheckBox-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- 单选按钮组，用于选择地图类型 -->
+        <RadioGroup
+            android:id="@+id/id_rp_maptype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/id_btn_normal"
+            android:orientation="horizontal">
+
+            <!-- 普通地图单选按钮 -->
+            <RadioButton
+                android:id="@+id/id_btn_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:textColor="#66A9C9"
+                android:text="普通地图" />
+
+            <!-- 卫星地图单选按钮 -->
+            <RadioButton
+                android:id="@+id/id_btn_satellite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:textColor="#66A9C9"
+                android:text="卫星地图" />
+
+        </RadioGroup>
+
+            <!-- 路况图复选框 -->
+            <CheckBox
+                android:id="@+id/id_cb_trafficEnabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:textColor="#66A9C9"
+                android:text="路况图" />
+
+            <!-- 热力图复选框 -->
+            <CheckBox
+                android:id="@+id/id_cb_heatMapEnabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:textColor="#66A9C9"
+                android:text="热力图" />
+
+            <CheckBox
+                android:id="@+id/btn_toggle_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:textColor="#66A9C9"
+                android:text="循迹" />
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:id="@+id/traceOptionsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            android:visibility="gone"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true" />
+
+        <!-- 右侧图标按钮（右侧上下排列） -->
+        <LinearLayout
+            android:id="@+id/right_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="0dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_above="@+id/bottom_controls"
+            android:layout_marginBottom="80dp">
+
+            <ImageButton
+                android:id="@+id/btn_locate"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_my_location"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginTop="18dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_locator"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_device_location"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/distance_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:textSize="16sp"
+                android:textColor="#FF0000"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- 数据图表按钮 -->
+                <Button
+                    android:id="@+id/btn_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/oval_button_style"
+                    android:text="数据图表"
+                    android:textColor="#FFFFFF" />
+                <!-- 数据地图按钮 -->
+                <Button
+                    android:id="@+id/btn_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/oval_button_style"
+                    android:text="数据地图"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="©2025 Baidu-GS(2023)3206号-甲测资字11111342-京ICP证030173号"
+                android:layout_gravity="center_horizontal"
+                android:textSize="10sp"
+                android:textColor="#666666"
+                android:layout_marginBottom="8dp" />
+        </LinearLayout>
+    </RelativeLayout>
+        </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

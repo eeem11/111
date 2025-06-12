@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--    数据分类  -->
+    <string-array name="goods_type">
+        <item>数据1</item>
+        <item>数据2</item>
+        <item>数据3</item>
+        <item>数据4</item>
+        <item>数据5</item>
+        <item>数据6</item>
+        <item>数据7</item>
+
+    </string-array>
+
+
+</resources>

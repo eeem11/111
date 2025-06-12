@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TabNewsFragment">
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/default_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />
+
+    <!-- Sensor data layout - only visible for "数据" tab -->
+    <LinearLayout
+        android:id="@+id/sensor_data_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone">
+
+        <!-- GPS 设备数据 -->
+        <TextView
+            android:id="@+id/latitudeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="纬度：加载中..."
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/longitudeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="经度：加载中..."
+            android:textSize="18sp"/>
+
+        <!-- 环境传感器数据 -->
+        <TextView
+            android:id="@+id/tempTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度：加载中..."
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/humiTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度：加载中..."
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/co2TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CO2浓度：加载中..."
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+</FrameLayout>

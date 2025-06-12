@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+
+    <!-- 时间选择按钮和时间范围显示 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_start_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="开始时间"/>
+        <Button
+            android:id="@+id/btn_end_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="结束时间"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_time_range"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="时间范围：最近2小时"/>
+
+    <Button
+        android:id="@+id/btn_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查询数据"/>
+
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#BBDEFB"
+            android:stretchColumns="*">
+
+            <!-- 表头 -->
+            <TableRow
+                android:id="@+id/header_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#8CADF2">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="序号"
+                    android:gravity="center" />
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="时间"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="PM2.5"
+                    android:gravity="center"/>
+                <TextView
+                    android:text="PM10"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"/>
+                <TextView
+                    android:text="SO2"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"/>
+                <TextView
+                    android:text="NO2"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"/>
+                <TextView
+                    android:text="O3"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"/>
+                <TextView
+                    android:text="CO"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"/>
+                <TextView
+                    android:text="经度"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"/>
+                <TextView
+                    android:text="纬度"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"/>
+            </TableRow>
+
+            <!-- 表格数据体 -->
+            <TableLayout
+                android:id="@+id/data_table_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/tv_empty_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#FF0000"
+        android:visibility="gone"
+        android:padding="16dp"
+        android:textSize="16sp"/>
+
+</LinearLayout>

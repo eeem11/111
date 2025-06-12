@@ -1,0 +1,359 @@
+<!-- activity_second_map.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <!-- 顶部的紫色背景LinearLayout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="#8C5698C3"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+    <!-- 添加顶部控制栏 -->
+    <LinearLayout
+        android:id="@+id/control_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#CCE05757"
+        android:orientation="vertical">
+
+
+        <!-- 一级复选框 -->
+        <LinearLayout
+            android:id="@+id/main_controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#DDDEEE">
+
+            <CheckBox
+                android:id="@+id/cb_heatmap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#66A9C9"
+                android:text="热力图" />
+
+            <CheckBox
+                android:id="@+id/cb_cluster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#66A9C9"
+                android:text="点聚合" />
+
+            <CheckBox
+                android:id="@+id/cb_trace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#66A9C9"
+                android:text="轨迹显示" />
+        </LinearLayout>
+
+        <!-- 点聚合二级控制 -->
+        <LinearLayout
+            android:id="@+id/cluster_controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btn_add_points"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="添加点" />
+
+            <Button
+                android:id="@+id/btn_clear_points"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="清除" />
+
+            <Button
+                android:id="@+id/btn_trace_source"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="追溯"/>
+        </LinearLayout>
+
+        <!-- 轨迹二级控制 -->
+        <LinearLayout
+            android:id="@+id/trace_controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btn_show_trace"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="显示轨迹" />
+
+            <Button
+                android:id="@+id/btn_listen_trace"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="监听轨迹" />
+
+            <Button
+                android:id="@+id/btn_clear_trace"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="清除" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false">
+
+        <!-- 原有地图视图 -->
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <Button
+                android:id="@+id/btn_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="信息汇总"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#8C5698C3"/>
+
+            <!-- 信息汇总面板 -->
+            <LinearLayout
+                android:id="@+id/info_panel"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_bg"
+                android:padding="8dp"
+                android:visibility="gone"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_update_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="8dp"
+                    android:text="更新时间："/>
+
+                <!-- 白色背景容器 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#FFFFFF"
+                    android:padding="8dp">
+
+                    <!-- 第一行：地点、AQI、空气质量 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="4dp"
+                        android:baselineAligned="false">
+
+                        <!-- 地点 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.33"
+                            android:background="@drawable/rounded_bg_blue"
+                            android:padding="8dp"
+                            android:layout_marginEnd="4dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="地点:"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"/>
+                            <TextView
+                                android:id="@+id/tv_location"
+                                android:textSize="16sp"
+                                android:textColor="@android:color/white"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <!-- 实时AQI -->
+                        <LinearLayout
+                            android:id="@+id/aqi_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.34"
+                            android:background="#2196F3"
+                            android:padding="8dp"
+                            android:layout_marginEnd="4dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="实时AQI:"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"/>
+                            <TextView
+                                android:id="@+id/tv_aqi_value"
+                                android:textSize="20sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:textStyle="bold"
+                                android:singleLine="false"/>
+                        </LinearLayout>
+
+                        <!-- 空气质量 -->
+                        <LinearLayout
+                            android:id="@+id/air_quality_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.33"
+                            android:background="#2196F3"
+                            android:padding="8dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="空气质量:"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"/>
+                            <TextView
+                                android:id="@+id/tv_air_quality"
+                                android:textSize="20sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:singleLine="false"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 第二行：建议、污染物 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+
+                        <!-- 建议（宽度占比2/3） -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.68"
+                            android:background="@drawable/rounded_bg_blue"
+                            android:padding="8dp"
+                            android:layout_marginEnd="4dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="出行建议:"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"/>
+                            <TextView
+                                android:id="@+id/tv_suggestion"
+                                android:textSize="14sp"
+                                android:textColor="@android:color/white"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:singleLine="false"/>
+                        </LinearLayout>
+
+                        <!-- 首要污染物（宽度占比1/3） -->
+                        <LinearLayout
+                            android:id="@+id/pollutant_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.33"
+                            android:background="#2196F3"
+                            android:layout_marginEnd="0dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="首要污染物:"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp"/>
+                            <TextView
+                                android:id="@+id/tv_primary_pollutant"
+                                android:textSize="25sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_summary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#333333"
+                        android:lineSpacingMultiplier="1.2"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/btn_add_numbered_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="绘制区域"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#8C5698C3"/>
+            <Button
+                android:id="@+id/btn_clear_draw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除绘制"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#FF5722"
+                android:visibility="gone"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="©2025 Baidu-GS(2023)3206号-甲测资字11111342-京ICP证030173号"
+                android:layout_gravity="center_horizontal"
+                android:textSize="10sp"
+                android:textColor="#666666"
+                android:layout_marginBottom="8dp" />
+        </LinearLayout>
+
+        <!-- 其他现有布局 -->
+    </RelativeLayout>
+</LinearLayout>
